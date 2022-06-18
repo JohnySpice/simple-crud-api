@@ -1,0 +1,35 @@
+{
+  "include": [
+    "*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "_build"
+  ],
+  "compilerOptions": {
+    "target": "es2020",
+    "moduleResolution": "node",
+    "outDir": "_build",
+    "esModuleInterop": true,
+    "alwaysStrict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
+    "strictFunctionTypes": true,
+    "noImplicitThis": true,
+    "strictBindCallApply": true,
+    "noImplicitReturns": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+  },
+  "watchOptions": {
+    "watchFile": "useFsEvents",
+    "watchDirectory": "useFsEvents",
+    "fallbackPolling": "dynamicPriority",
+    "synchronousWatchDirectory": true,
+    "excludeDirectories": [
+      "**/node_modules",
+      "_build"
+    ],
+  }
+}
