@@ -1,6 +1,7 @@
 import { users, requiredFields } from '../db/users';
 import { ICreatedUser, IResult, IUser } from '../models';
 import { v4 } from 'uuid';
+import { validateBodyFields } from './utils';
 
 export function createUser(id: string, body: string): IResult {
   let parsedBody: IUser;
@@ -9,7 +10,7 @@ export function createUser(id: string, body: string): IResult {
   } catch {
     return { status: 400, data: 'Incorrect user object' };
   }
-  const nonExistFields = requiredFields.filter(rf => !Object.keys(parsedBody).includes(rf));
+  const nonExistFields = validateBodyFields(parsedBody);
   if (nonExistFields?.length) {
     return { status: 400, data: `Request doesn't contain required fields ${nonExistFields.join(', ')}` };
   }
