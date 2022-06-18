@@ -1,14 +1,15 @@
 import { users } from '../db/users';
 import { IResult } from '../models';
 import { validate } from "uuid";
+import { InvalidIdError, UserNotFoundError } from '../Errors';
 
 export function getUser(id: string): IResult {
   if (!validate(id)) {
-    return {status: 400, data: 'Invalid user id'};
+    throw new InvalidIdError();
   }
   const user = users.find(u => u.id === id);
   if (!user) {
-    return {status: 404, data: 'User not found'};
+    throw new UserNotFoundError();
   }
-  return {status: 200, data: user};
+  return { statusCode: 200, data: user };
 }
