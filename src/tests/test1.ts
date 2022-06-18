@@ -3,7 +3,7 @@ import request from 'supertest';
 import { IUser } from '../models';
 import assert from 'assert';
 
-const req = request('http://localhost:8000');
+const req = request(`http://localhost:${process.env.PORT}`);
 const user1: IUser = { username: 'john', age: 20, hobbies: ['hobbie1', 'hobbie2'] };
 const user2: IUser = { username: 'pete', age: 32, hobbies: ['hobbie3', 'hobbie4'] };
 const userForUpdate = { username: 'devon', age: 50 };
