@@ -1,12 +1,7 @@
 import { describe, it } from 'mocha';
-import request from 'supertest';
-import { IUser } from '../models';
 import { IncorrectUserDataError, InvalidIdError, NotAllFieldsError, UserNotFoundError } from '../Errors';
 import assert from 'assert';
-
-const req = request(`http://localhost:${process.env.PORT}`);
-const incorrectUser = { username: 'john' };
-const user: IUser = { username: 'john', age: 20, hobbies: ['hobbie1', 'hobbie2'] };
+import { req, user1 as user, incorrectUser } from './index';
 
 describe('Requests with Error', function () {
 
