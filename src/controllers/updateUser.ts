@@ -1,7 +1,7 @@
 import { users } from '../db/users';
 import { IResult, IUser } from '../models';
 import { validate } from "uuid";
-import { validateBodyFields, parseBody } from './';
+import { parseBody } from './';
 import { InvalidIdError, UserNotFoundError } from '../Errors';
 
 export function updateUser(id: string, body: string): IResult {
@@ -16,10 +16,10 @@ export function updateUser(id: string, body: string): IResult {
     throw new UserNotFoundError();
   }
 
-  validateBodyFields(parsedBody);
-
   for (const field in parsedBody) {
-    user[field] = parsedBody[field];
+    if (user.hasOwnProperty(field)) {
+      user[field] = parsedBody[field];
+    }
   }
   return { statusCode: 200, data: user };
 }
