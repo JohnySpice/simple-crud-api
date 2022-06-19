@@ -92,10 +92,11 @@ export class CustomServer {
       // @ts-ignore
       process.send('get');
       this.users = await new Promise(resolve => {
-        process.on('message', (message: IUserRecord[]) => {
-          process.removeAllListeners();
+        const callback = (message: IUserRecord[]) => {
+          process.removeListener('message', callback);
           resolve(message);
-        });
+        };
+        process.on('message', callback)
       });
     }
   }
