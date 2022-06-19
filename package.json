@@ -7,7 +7,7 @@
     "test": "mocha",
     "start:dev": "nodemon --ignore test*.ts index.ts",
     "start:prod": "tsc && node _build/index.js",
-    "start:multi": "ts-node src/cluster/main.ts"
+    "start:multi": "ts-node src/cluster/cluster.ts"
   },
   "keywords": [],
   "author": "",
