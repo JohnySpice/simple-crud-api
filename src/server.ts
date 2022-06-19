@@ -1,30 +1,35 @@
 import { createServer } from "http";
 import 'dotenv/config';
 import { Callback, Method, Router } from './Router/Router';
-import { IResult } from "./models";
+import { IResult, IUserRecord } from "./models";
 import { CustomError, InternalError, ResourceNotFoundError } from "./Errors";
-
 
 export class CustomServer {
   routes: Router[];
   PORT: string;
-
-  constructor() {
+  users: IUserRecord[];
+  constructor(users: IUserRecord[]) {
     this.routes = [];
     this.PORT = process.env.PORT || '8000';
     this.start();
+    this.users = users;
   }
 
   start() {
     createServer(async (request, response) => {
+      // @ts-ignore
+      if (process.channel) {
+        console.log(`Worker ${process.pid} handle request`);
+      }
       response.setHeader('content-type', 'application/json');
       try {
         if (!request.url) {
           return;
         }
+        const method = request.method || '';
         const { url, id } = this.parseUrl(request.url);
         const route = this.routes.find(r =>
-          url === r.url && request.method === r.method);
+          url === r.url && method === r.method);
         if (!route) {
           throw new ResourceNotFoundError();
         }
@@ -32,7 +37,9 @@ export class CustomServer {
         for await (const chunk of request) {
           body.push(chunk);
         }
-        const { statusCode, data }: IResult = route.callback(id, body);
+        await this.updateLocalDB();
+        const { statusCode, data }: IResult = route.callback(this.users, id, body);
+        this.updateExternalDB(method, data, id);
         response.writeHead(statusCode);
         response.end(JSON.stringify({ result: data }));
         return;
@@ -76,6 +83,33 @@ export class CustomServer {
       return { statusCode: error.statusCode, errorMessge: error.message };
     } else {
       return { statusCode: InternalError.statusCode, errorMessge: InternalError.message };
+    }
+  }
+
+  async updateLocalDB() {
+    // @ts-ignore
+    if (process.channel) {
+      // @ts-ignore
+      process.send('get');
+      this.users = await new Promise(resolve => {
+        process.on('message', (message: IUserRecord[]) => {
+          process.removeAllListeners();
+          resolve(message);
+        });
+      });
+    }
+  }
+
+  updateExternalDB(method: string, data: IUserRecord | IUserRecord[] | string, id?: string) {
+    // @ts-ignore
+    if (process.channel) {
+      if (method === 'DELETE') {
+        // @ts-ignore
+        process.send(id);
+      } else if (method !== 'GET') {
+        // @ts-ignore
+        process.send(data);
+      }
     }
   }
 }

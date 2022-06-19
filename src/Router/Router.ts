@@ -1,4 +1,4 @@
-import { IResult } from '../models';
+import { IResult, IUserRecord } from '../models';
 
 export class Router {
   url: string;
@@ -13,4 +13,4 @@ export class Router {
 
 export type Method = 'POST' | 'GET' | 'PUT' | 'DELETE';
 
-export type Callback = (url: string, body?: any) => IResult;
+export type Callback = (users: IUserRecord[], id: string, body?: any) => IResult;

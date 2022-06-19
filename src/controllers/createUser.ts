@@ -1,9 +1,8 @@
-import { users } from '../db/users';
 import { IUserRecord, IResult, IUser } from '../models';
 import { v4 } from 'uuid';
 import { parseBody, validateBodyFields } from './utils';
 
-export function createUser(id: string, body: string): IResult {
+export function createUser(users: IUserRecord[], id: string, body: string): IResult {
   const parsedBody: IUser = parseBody(body);
   validateBodyFields(parsedBody);
   const newUser: IUserRecord = {

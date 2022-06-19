@@ -6,7 +6,8 @@
   "scripts": {
     "test": "mocha",
     "start:dev": "nodemon --ignore test*.ts index.ts",
-    "start:prod": "tsc && node _build/index.js"
+    "start:prod": "tsc && node _build/index.js",
+    "start:multi": "ts-node src/cluster/main.ts"
   },
   "keywords": [],
   "author": "",

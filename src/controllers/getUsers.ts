@@ -1,6 +1,5 @@
-import { users } from '../db/users';
-import { IResult } from '../models';
+import { IResult, IUserRecord } from '../models';
 
-export function getUsers(): IResult {
+export function getUsers(users: IUserRecord[]): IResult {
   return { statusCode: 200, data: users };
 }

@@ -1,9 +1,8 @@
-import { users } from '../db/users';
-import { IResult } from '../models';
+import { IResult, IUserRecord } from '../models';
 import { validate } from "uuid";
 import { InvalidIdError, UserNotFoundError } from '../Errors';
 
-export function deleteUser(id: string): IResult {
+export function deleteUser(users: IUserRecord[], id: string): IResult {
   if (!validate(id)) {
     throw new InvalidIdError();
   }

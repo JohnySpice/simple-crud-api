@@ -1,10 +1,9 @@
-import { users } from '../db/users';
-import { IResult, IUser } from '../models';
+import { IResult, IUser, IUserRecord } from '../models';
 import { validate } from "uuid";
 import { parseBody } from './';
 import { InvalidIdError, UserNotFoundError } from '../Errors';
 
-export function updateUser(id: string, body: string): IResult {
+export function updateUser(users: IUserRecord[], id: string, body: string): IResult {
   const parsedBody: IUser = parseBody(body);
 
   if (!validate(id)) {
