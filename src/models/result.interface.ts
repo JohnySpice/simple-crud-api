@@ -1,6 +1,6 @@
-import { ICreatedUser } from "./user.interface";
+import { IUserRecord } from "./user.interface";
 
 export interface IResult {
   statusCode: number,
-  data: ICreatedUser[] | ICreatedUser | string;
+  data: IUserRecord[] | IUserRecord | string;
 }

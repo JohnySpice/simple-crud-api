@@ -1,4 +1,4 @@
-export interface ICreatedUser extends IUser {
+export interface IUserRecord extends IUser {
   'id': string,
 }
 export interface IUser {
