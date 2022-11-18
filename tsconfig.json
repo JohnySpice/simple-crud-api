@@ -4,12 +4,13 @@
   ],
   "exclude": [
     "node_modules",
-    "_build"
+    "_build",
+    "src/tests/*"
   ],
   "compilerOptions": {
     "target": "es2020",
-    "moduleResolution": "node",
     "outDir": "_build",
+    "module": "CommonJS",
     "esModuleInterop": true,
     "alwaysStrict": true,
     "noImplicitAny": true,
@@ -21,15 +22,5 @@
     "noImplicitReturns": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
-  },
-  "watchOptions": {
-    "watchFile": "useFsEvents",
-    "watchDirectory": "useFsEvents",
-    "fallbackPolling": "dynamicPriority",
-    "synchronousWatchDirectory": true,
-    "excludeDirectories": [
-      "**/node_modules",
-      "_build"
-    ],
   }
 }
